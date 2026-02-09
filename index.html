@@ -21,20 +21,20 @@
 
     h1 {
       font-size: 3rem;
-      color: white;
-      text-shadow: 2px 2px 12px rgba(0,0,0,0.5);
+      color: black;
+      text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
       margin-bottom: 20px;
     }
 
     #popup {
       font-size: 1.5rem;
-      color: white;
+      color: black;
       margin-bottom: 20px;
       height: 30px;
     }
 
     button {
-      font-size: 1.8rem;
+      font-size: 2rem;
       padding: 15px 25px;
       border: none;
       border-radius: 12px;
@@ -52,8 +52,8 @@
     }
 
     #no {
-      background: #444;
-      color: white;
+      background: #eee;
+      color: black;
       left: 30%;
       top: 40%;
     }
@@ -98,14 +98,14 @@
 
     function yesClick() {
       document.body.innerHTML = `
-        <h1 style="color:white; font-size:4rem; text-shadow:2px 2px 15px black;">
+        <h1 style="color:black; font-size:4rem; text-shadow:2px 2px 4px rgba(255,255,255,0.5);">
           YAYYYYY 💘
         </h1>
-        <p style="color:white; font-size:2rem;">You made the right choice 😌</p>
+        <p style="color:black; font-size:2rem;">You made the right choice 😌</p>
       `;
     }
 
-    // Start the No button somewhere random
+    // Start No button somewhere random
     moveNoButton();
   </script>
 
