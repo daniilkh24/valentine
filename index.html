@@ -1,109 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Important Question</title>
+  <meta charset="UTF-8">
+  <title>Valentine?</title>
   <style>
     body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      background: pink;
+      font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: Arial, sans-serif;
+      height: 100vh;
       overflow: hidden;
-    }
-
-    .box {
-      background: white;
-      padding: 30px 40px;
-      border-radius: 15px;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
-    h1 {
+    img {
+      width: 200px;
       margin-bottom: 20px;
     }
 
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+
+    #popup {
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      height: 24px;
+    }
+
+    .buttons {
+      position: relative;
+      width: 300px;
+      height: 200px;
+    }
+
     button {
-      padding: 12px 20px;
-      font-size: 16px;
+      font-size: 18px;
+      padding: 10px 20px;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
-      margin: 10px;
+      position: absolute;
     }
 
     #yes {
-      background: #4CAF50;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 20px;
+      background: #ff4d6d;
       color: white;
     }
 
     #no {
-      background: #ff4d4d;
+      left: 20px;
+      top: 20px;
+      background: #444;
       color: white;
-    }
-
-    #run {
-      background: #555;
-      color: white;
-      position: absolute;
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <h1 id="question">Will you be my Valentine? 💘</h1>
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 😭</button>
-  </div>
+  <img src="bear.jpg" alt="bear">
+  <h1>Will you be my Valentine?</h1>
+  <div id="popup"></div>
 
-  <button id="run">Run Away 🏃‍♂️</button>
+  <div class="buttons">
+    <button id="yes" onclick="yesClick()">Yes 💖</button>
+    <button id="no">No</button>
+  </div>
 
   <script>
     const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const runBtn = document.getElementById("run");
-    const question = document.getElementById("question");
+    const popup = document.getElementById("popup");
 
-    let noClicks = 0;
+    const messages = [
+      "Nice try 😭",
+      "Nope.",
+      "You really thought?",
+      "That button is broken fr",
+      "Try again 💀",
+      "Be serious right now"
+    ];
 
-    noBtn.onclick = () => {
-      noClicks++;
-      const texts = [
-        "Are you sure? 😢",
-        "Think again...",
-        "This hurts 💔",
-        "Last chance 😭",
-        "Okay that’s just mean 😔"
-      ];
-      question.innerText = texts[Math.min(noClicks - 1, texts.length - 1)];
-    };
+    function moveNoButton() {
+      const x = Math.random() * 200;
+      const y = Math.random() * 120;
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
 
-    yesBtn.onclick = () => {
-      document.body.innerHTML = `
-        <h1 style="color:white; font-size:50px;">
-          LET'S GOOOO 💖🎉
-        </h1>
-      `;
-    };
-
-    function moveRunButton() {
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 50);
-      runBtn.style.left = x + "px";
-      runBtn.style.top = y + "px";
+      popup.textContent = messages[Math.floor(Math.random() * messages.length)];
     }
 
-    runBtn.onmouseover = moveRunButton;
-    moveRunButton();
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+
+    function yesClick() {
+      document.body.innerHTML = `
+        <h1>YAYYYYY 💘</h1>
+        <p>You made the right choice 😌</p>
+      `;
+    }
   </script>
 
 </body>
 </html>
-
-</html>
-
