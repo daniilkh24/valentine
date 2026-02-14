@@ -93,8 +93,6 @@ const yesBtn = document.getElementById("yes");
 const popup = document.getElementById("popup");
 const card = document.getElementById("card");
 
-let yesScale = 1;
-
 // Messages for No button hover
 const messages = [
   "Are you sure? 🤨",
@@ -105,7 +103,7 @@ const messages = [
   "You almost had it."
 ];
 
-// Place No button initially next to Yes
+// Place No button initially next to Yes inside the card
 function placeNoBtn() {
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -114,19 +112,18 @@ function placeNoBtn() {
 }
 placeNoBtn();
 
-// Move No button inside a central area within card
+// Move No button anywhere near edges of the card + outside for chaos
 function moveNo() {
-  const cardRect = card.getBoundingClientRect();
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
+  
+  const padding = 10; // minimum distance from screen edges
 
-  const paddingX = cardRect.width / 5;  
-  const paddingY = cardRect.height / 5;
+  const maxX = window.innerWidth - btnWidth - padding;
+  const maxY = window.innerHeight - btnHeight - padding;
 
-  const minX = paddingX;
-  const maxX = cardRect.width - btnWidth - paddingX;
-  const minY = paddingY;
-  const maxY = cardRect.height - btnHeight - paddingY;
+  const minX = -btnWidth/2; // allow half outside left
+  const minY = -btnHeight/2; // allow half outside top
 
   const x = Math.random() * (maxX - minX) + minX;
   const y = Math.random() * (maxY - minY) + minY;
@@ -136,8 +133,8 @@ function moveNo() {
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button vertically without stretching width
-  yesBtn.style.paddingTop = yesBtn.offsetHeight * 0.5 + "px"; // grow height
+  // Grow Yes button vertically (not horizontally)
+  yesBtn.style.paddingTop = yesBtn.offsetHeight * 0.5 + "px";
   yesBtn.style.paddingBottom = yesBtn.offsetHeight * 0.5 + "px";
   yesBtn.style.fontSize = parseFloat(window.getComputedStyle(yesBtn).fontSize) * 1.2 + "px";
 }
