@@ -21,7 +21,6 @@ body {
   overflow: hidden;
 }
 
-/* Glass Card */
 .card {
   backdrop-filter: blur(25px);
   background: rgba(255, 255, 255, 0.25);
@@ -49,13 +48,13 @@ h1 {
   transition: 0.2s ease;
 }
 
-/* Buttons */
 button {
   padding: 14px 25px;
   border-radius: 25px;
   border: none;
   font-size: 1rem;
   cursor: pointer;
+  position: absolute;
   transition: all 0.2s ease;
 }
 
@@ -63,14 +62,15 @@ button {
   background: #ff2d55;
   color: white;
   width: 100%;
-  margin-bottom: 15px;
-  display: block;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  font-weight: bold;
 }
 
 #no {
   background: #e5e5ea;
   color: #111;
-  position: absolute;
 }
 
 .success {
@@ -103,7 +103,7 @@ const messages = [
   "You almost had it."
 ];
 
-// Place No button initially next to Yes inside the card
+// Place No button initially next to Yes button
 function placeNoBtn() {
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -112,14 +112,14 @@ function placeNoBtn() {
 }
 placeNoBtn();
 
-// Move No button near card but never offscreen
+// Move No button around card area without disappearing
 function moveNo() {
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
 
   const cardRect = card.getBoundingClientRect();
 
-  // Random area: slightly outside the card in all directions, but inside screen
+  // Random area around the card but within screen limits
   const minX = Math.max(cardRect.left - 50, 10);
   const maxX = Math.min(cardRect.right + 50 - btnWidth, window.innerWidth - btnWidth - 10);
   const minY = Math.max(cardRect.top - 50, 10);
@@ -133,9 +133,14 @@ function moveNo() {
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button vertically only
+  // Grow Yes button only
   let currentHeight = yesBtn.offsetHeight;
-  yesBtn.style.height = currentHeight * 1.2 + "px";
+  let currentWidth = yesBtn.offsetWidth;
+  let currentFont = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+
+  yesBtn.style.height = currentHeight * 1.15 + "px"; // vertical growth
+  yesBtn.style.width = currentWidth * 1.05 + "px"; // slight horizontal growth
+  yesBtn.style.fontSize = (currentFont * 1.1) + "px";
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
