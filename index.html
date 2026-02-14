@@ -52,8 +52,16 @@
       transition: 0.2s ease;
     }
 
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      position: relative;
+    }
+
     button {
-      padding: 14px 25px;
+      flex: 1;
+      padding: 14px 0;
       border-radius: 25px;
       border: none;
       font-size: 1rem;
@@ -65,15 +73,16 @@
     #yesBtn {
       background: #ff2d55;
       color: white;
-      width: 100%;
-      margin-bottom: 15px;
       box-shadow: 0 5px 15px rgba(255,45,85,0.4);
     }
 
     #noBtn {
       background: #e5e5ea;
       color: #111;
-      position: absolute;
+      position: absolute; /* starts inside card, moves on hover */
+      left: 50%; 
+      transform: translateX(110%); /* place right next to Yes */
+      top: 0;
     }
 
     .ending {
@@ -99,8 +108,10 @@
   <div class="card">
     <h1>Ari, will you be my Valentine? 💘</h1>
     <div id="popup"></div>
-    <button id="yesBtn">YES! 💖</button>
-    <button id="noBtn">No</button>
+    <div class="buttons">
+      <button id="yesBtn">YES! 💖</button>
+      <button id="noBtn">No</button>
+    </div>
   </div>
 
   <script>
@@ -117,18 +128,6 @@
       "Try again.",
       "You almost had it."
     ];
-
-    // Place no button exactly next to the yes button at start
-    function placeNoButtonNextToYes() {
-      const yesRect = yesBtn.getBoundingClientRect();
-      const cardRect = document.querySelector('.card').getBoundingClientRect();
-
-      // Relative to card
-      noBtn.style.left = (yesRect.width + 10) + 'px'; // 10px to the right
-      noBtn.style.top = (yesRect.top - cardRect.top) + 'px'; // align vertically
-    }
-
-    placeNoButtonNextToYes();
 
     // Move No button when hovered, but keep it near the card
     noBtn.addEventListener('mouseenter', () => {
@@ -163,8 +162,6 @@
         </div>
       `;
     });
-
-    window.addEventListener('resize', placeNoButtonNextToYes);
   </script>
 </body>
 </html>
