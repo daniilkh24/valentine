@@ -18,7 +18,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url("hearts.jpg") center/cover no-repeat;
+  background: url("heartys.jpg") center/cover no-repeat;
   overflow: hidden;
 }
 
@@ -63,16 +63,13 @@ button {
 #yes {
   background: #ff2d55;
   color: white;
-  width: 100%;
-  margin-bottom: 15px;
   transform-origin: center;
 }
 
 #no {
   background: #e5e5ea;
   color: #111;
-  margin-top: 10px;
-  width: 100%;
+  position: absolute;
 }
 
 .success {
@@ -87,8 +84,10 @@ button {
 <div class="card">
   <h1>Ari, will you be my Valentine? 💘</h1>
   <div id="popup"></div>
-  <button id="yes">Yes 💖</button>
-  <button id="no">No</button>
+  <div style="display:flex; gap:15px; justify-content:center;">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No</button>
+  </div>
 </div>
 
 <script>
@@ -107,24 +106,28 @@ const messages = [
   "You almost had it."
 ];
 
+// Get card boundaries to prevent "No" going out of bounds
 function moveNo() {
-  const maxX = window.innerWidth - noBtn.offsetWidth;
-  const maxY = window.innerHeight - noBtn.offsetHeight;
+  const padding = 20; // space from edges
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-  noBtn.style.position = "absolute";
+  // Random position inside viewport
   noBtn.style.left = Math.random() * maxX + "px";
   noBtn.style.top = Math.random() * maxY + "px";
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // YES BUTTON GROWS INSANE
+  // YES BUTTON GROWS BIG
   yesScale += 0.4;
   yesBtn.style.transform = "scale(" + yesScale + ")";
 }
 
+// Move No button on hover
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("click", moveNo);
 
+// Yes button click
 yesBtn.addEventListener("click", () => {
   document.body.innerHTML = `
     <div class="card">
