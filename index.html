@@ -34,14 +34,14 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       border: 1px solid rgba(255,255,255,0.3);
       z-index: 2;
-      color: black; /* text inside card is black */
+      color: black;
     }
 
     h1 {
       font-family: 'Pacifico', cursive;
       font-size: 2.5rem;
       margin-bottom: 25px;
-      color: black; /* main heading is black */
+      color: black;
     }
 
     #popup {
@@ -73,7 +73,7 @@
     #noBtn {
       background: #e5e5ea;
       color: #111;
-      position: fixed; /* keep it above everything */
+      position: absolute;
     }
 
     .ending {
@@ -100,9 +100,8 @@
     <h1>Ari, will you be my Valentine? 💘</h1>
     <div id="popup"></div>
     <button id="yesBtn">YES! 💖</button>
+    <button id="noBtn">No</button>
   </div>
-
-  <button id="noBtn">No</button>
 
   <script>
     const yesBtn = document.getElementById('yesBtn');
@@ -119,25 +118,24 @@
       "You almost had it."
     ];
 
-    // Set initial position of No button near the Yes button
-    const card = document.querySelector('.card');
+    // place no button **next to Yes button at start**
     const setInitialNoBtn = () => {
-      const rect = card.getBoundingClientRect();
-      noBtn.style.left = rect.right - noBtn.offsetWidth - 10 + 'px';
-      noBtn.style.top = rect.top + 10 + 'px';
+      const yesRect = yesBtn.getBoundingClientRect();
+      noBtn.style.left = yesRect.right + 10 + 'px';
+      noBtn.style.top = yesRect.top + 'px';
     };
 
     setInitialNoBtn();
 
-    // Make the No button move around **near the card** but never offscreen
+    // Make No button move around near the card, but not offscreen
     noBtn.addEventListener('mouseenter', () => {
-      const rect = card.getBoundingClientRect();
-      const padding = 30; // area around card
+      const cardRect = document.querySelector('.card').getBoundingClientRect();
+      const padding = 30;
 
-      const minX = Math.max(rect.left - padding, 0);
-      const maxX = Math.min(rect.right + padding - noBtn.offsetWidth, window.innerWidth - noBtn.offsetWidth);
-      const minY = Math.max(rect.top - padding, 0);
-      const maxY = Math.min(rect.bottom + padding - noBtn.offsetHeight, window.innerHeight - noBtn.offsetHeight);
+      const minX = Math.max(cardRect.left - padding, 0);
+      const maxX = Math.min(cardRect.right + padding - noBtn.offsetWidth, window.innerWidth - noBtn.offsetWidth);
+      const minY = Math.max(cardRect.top - padding, 0);
+      const maxY = Math.min(cardRect.bottom + padding - noBtn.offsetHeight, window.innerHeight - noBtn.offsetHeight);
 
       const x = Math.random() * (maxX - minX) + minX;
       const y = Math.random() * (maxY - minY) + minY;
@@ -145,10 +143,8 @@
       noBtn.style.left = x + 'px';
       noBtn.style.top = y + 'px';
 
-      // Show random popup
       popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-      // Expand Yes button
       yesScale += 0.2;
       yesBtn.style.transform = `scale(${yesScale})`;
     });
@@ -164,7 +160,6 @@
       `;
     });
 
-    // Adjust No button if window resizes
     window.addEventListener('resize', setInitialNoBtn);
   </script>
 </body>
