@@ -28,7 +28,7 @@ body {
   text-align: center;
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.3);
-  z-index: 2;
+  z-index: 1; /* Lower than No button now */
 }
 
 h1 {
@@ -61,12 +61,14 @@ button {
   background-color: #ff4d6d;
   color: white;
   width: 100%;
+  z-index: 1;
 }
 
 #noBtn {
   background-color: #eee;
   color: #111;
   position: fixed;
+  z-index: 3; /* Above everything */
 }
 
 </style>
@@ -101,7 +103,7 @@ const cardRect = card.getBoundingClientRect();
 noBtn.style.left = (cardRect.left + cardRect.width - noBtn.offsetWidth) + 'px';
 noBtn.style.top = (cardRect.top + cardRect.height - noBtn.offsetHeight) + 'px';
 
-// Make No button move around the card area
+// Make No button move around area near the card but never offscreen
 function moveNo() {
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
