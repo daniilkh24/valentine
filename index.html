@@ -21,6 +21,7 @@ body {
   overflow: hidden;
 }
 
+/* Glassy Card */
 .card {
   backdrop-filter: blur(25px);
   background: rgba(255, 255, 255, 0.25);
@@ -48,6 +49,7 @@ h1 {
   transition: 0.2s ease;
 }
 
+/* Buttons */
 button {
   padding: 14px 25px;
   border-radius: 25px;
@@ -92,7 +94,6 @@ button {
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const popup = document.getElementById("popup");
-const card = document.getElementById("card");
 
 const messages = [
   "Are you sure? 🤨",
@@ -103,7 +104,7 @@ const messages = [
   "You almost had it."
 ];
 
-// Start buttons next to each other
+// Start No button next to Yes
 function initButtons() {
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -112,35 +113,31 @@ function initButtons() {
 }
 initButtons();
 
-// Move No button randomly around the card area
+// Move No button anywhere on screen (chaotic)
 function moveNo() {
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
-  const cardRect = card.getBoundingClientRect();
 
-  // Keep it close to card (not offscreen)
-  const minX = Math.max(cardRect.left - 20, 10);
-  const maxX = Math.min(cardRect.right + 20 - btnWidth, window.innerWidth - btnWidth - 10);
-  const minY = Math.max(cardRect.top - 20, 10);
-  const maxY = Math.min(cardRect.bottom + 20 - btnHeight, window.innerHeight - btnHeight - 10);
+  // anywhere on screen
+  const maxX = window.innerWidth - btnWidth - 10;
+  const maxY = window.innerHeight - btnHeight - 10;
 
-  const x = minX + Math.random() * (maxX - minX);
-  const y = minY + Math.random() * (maxY - minY);
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button but with max limits
+  // Grow Yes button (up to max limits)
   let currentWidth = yesBtn.offsetWidth;
   let currentHeight = yesBtn.offsetHeight;
   let currentFont = parseFloat(window.getComputedStyle(yesBtn).fontSize);
 
-  // max width and height
-  const maxWidth = 300;
-  const maxHeight = 80;
-  const maxFont = 28;
+  const maxWidth = 400;
+  const maxHeight = 100;
+  const maxFont = 36;
 
   yesBtn.style.width = Math.min(currentWidth * 1.1, maxWidth) + "px";
   yesBtn.style.height = Math.min(currentHeight * 1.1, maxHeight) + "px";
