@@ -105,7 +105,7 @@ const messages = [
   "You almost had it."
 ];
 
-// Place No button initially next to Yes button
+// place No button initially next to Yes
 function placeNoBtn() {
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -114,18 +114,20 @@ function placeNoBtn() {
 }
 placeNoBtn();
 
-// Move No button randomly inside the card (keeps it visible)
+// Move No button in a bigger central area inside card
 function moveNo() {
   const cardRect = card.getBoundingClientRect();
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
 
-  // invisible random area inside card
-  const padding = 20;
-  const minX = padding;
-  const maxX = cardRect.width - btnWidth - padding;
-  const minY = yesBtn.offsetHeight + 40; // below yes button
-  const maxY = cardRect.height - btnHeight - padding;
+  // central area padding (expanded)
+  const paddingX = cardRect.width / 5;  // ~20% from left/right
+  const paddingY = cardRect.height / 5; // ~20% from top/bottom
+
+  const minX = paddingX;
+  const maxX = cardRect.width - btnWidth - paddingX;
+  const minY = paddingY;
+  const maxY = cardRect.height - btnHeight - paddingY;
 
   const x = Math.random() * (maxX - minX) + minX;
   const y = Math.random() * (maxY - minY) + minY;
@@ -135,8 +137,8 @@ function moveNo() {
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // grow Yes button
-  yesScale += 0.7;
+  // grow Yes button more dramatically
+  yesScale += 0.5;
   yesBtn.style.transform = "scale(" + yesScale + ")";
 }
 
