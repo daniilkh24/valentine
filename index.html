@@ -64,6 +64,7 @@ button {
   color: white;
   width: 100%;
   margin-bottom: 15px;
+  display: block;
 }
 
 #no {
@@ -111,18 +112,18 @@ function placeNoBtn() {
 }
 placeNoBtn();
 
-// Move No button but keep it fully visible near the card
+// Move No button near card but never offscreen
 function moveNo() {
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
 
   const cardRect = card.getBoundingClientRect();
 
-  // Allowed area: slightly outside the card but never offscreen
-  const minX = Math.max(cardRect.left - 20, 10);
-  const maxX = Math.min(cardRect.right + 20 - btnWidth, window.innerWidth - btnWidth - 10);
-  const minY = Math.max(cardRect.top - 20, 10);
-  const maxY = Math.min(cardRect.bottom + 20 - btnHeight, window.innerHeight - btnHeight - 10);
+  // Random area: slightly outside the card in all directions, but inside screen
+  const minX = Math.max(cardRect.left - 50, 10);
+  const maxX = Math.min(cardRect.right + 50 - btnWidth, window.innerWidth - btnWidth - 10);
+  const minY = Math.max(cardRect.top - 50, 10);
+  const maxY = Math.min(cardRect.bottom + 50 - btnHeight, window.innerHeight - btnHeight - 10);
 
   const x = minX + Math.random() * (maxX - minX);
   const y = minY + Math.random() * (maxY - minY);
@@ -132,10 +133,9 @@ function moveNo() {
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button
-  yesBtn.style.paddingTop = yesBtn.offsetHeight * 0.3 + "px";
-  yesBtn.style.paddingBottom = yesBtn.offsetHeight * 0.3 + "px";
-  yesBtn.style.fontSize = parseFloat(window.getComputedStyle(yesBtn).fontSize) * 1.25 + "px";
+  // Grow Yes button vertically only
+  let currentHeight = yesBtn.offsetHeight;
+  yesBtn.style.height = currentHeight * 1.2 + "px";
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
