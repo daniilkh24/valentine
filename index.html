@@ -63,6 +63,8 @@ button {
   background: #ff2d55;
   color: white;
   transform-origin: center;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 #no {
@@ -79,19 +81,18 @@ button {
 </head>
 <body>
 
-<div class="card">
+<div class="card" id="card">
   <h1>Ari, will you be my Valentine? 💘</h1>
   <div id="popup"></div>
-  <div style="display:flex; gap:15px; justify-content:center; position:relative;">
-    <button id="yes">Yes 💖</button>
-    <button id="no">No</button>
-  </div>
+  <button id="yes">Yes 💖</button>
+  <button id="no">No</button>
 </div>
 
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const popup = document.getElementById("popup");
+const card = document.getElementById("card");
 
 let yesScale = 1;
 
@@ -104,34 +105,37 @@ const messages = [
   "You almost had it."
 ];
 
-// Place No button next to Yes at start
+// Place No button initially next to Yes button
 function placeNoBtn() {
   const yesRect = yesBtn.getBoundingClientRect();
-  const cardRect = yesBtn.parentElement.getBoundingClientRect();
-
+  const cardRect = card.getBoundingClientRect();
   noBtn.style.left = (yesRect.right - cardRect.left + 10) + "px";
   noBtn.style.top = (yesRect.top - cardRect.top) + "px";
 }
 placeNoBtn();
 
-// Move No button randomly near center of screen
+// Move No button randomly inside the card (keeps it visible)
 function moveNo() {
-  const padding = 50;
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
+  const cardRect = card.getBoundingClientRect();
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
 
-  const rangeX = 200; // horizontal movement range
-  const rangeY = 150; // vertical movement range
+  // invisible random area inside card
+  const padding = 20;
+  const minX = padding;
+  const maxX = cardRect.width - btnWidth - padding;
+  const minY = yesBtn.offsetHeight + 40; // below yes button
+  const maxY = cardRect.height - btnHeight - padding;
 
-  const x = centerX + (Math.random() - 0.5) * rangeX;
-  const y = centerY + (Math.random() - 0.5) * rangeY;
+  const x = Math.random() * (maxX - minX) + minX;
+  const y = Math.random() * (maxY - minY) + minY;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button gradually
+  // grow Yes button
   yesScale += 0.7;
   yesBtn.style.transform = "scale(" + yesScale + ")";
 }
