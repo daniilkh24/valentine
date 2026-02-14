@@ -4,21 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For Ari ❤️</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       background: url('hearts.jpg') center/cover no-repeat fixed;
       overflow: hidden;
+      font-family: 'Poppins', sans-serif;
     }
 
-    /* Glassy Card */
+    /* Glassy card */
     .card {
-      backdrop-filter: blur(20px);
+      position: relative;
+      backdrop-filter: blur(25px);
       background: rgba(255, 255, 255, 0.25);
       border-radius: 30px;
       padding: 40px;
@@ -27,14 +33,15 @@
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       border: 1px solid rgba(255,255,255,0.3);
-      position: relative;
       z-index: 2;
     }
 
     h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #111;
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 25px;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
     }
 
     #popup {
@@ -45,15 +52,14 @@
       transition: 0.2s ease;
     }
 
-    /* Buttons */
     button {
       padding: 14px 25px;
       border-radius: 25px;
       border: none;
       font-size: 1rem;
       cursor: pointer;
-      transition: 0.2s ease;
       font-weight: bold;
+      transition: all 0.3s ease;
     }
 
     #yesBtn {
@@ -61,48 +67,48 @@
       color: white;
       width: 100%;
       margin-bottom: 15px;
-    }
-
-    #yesBtn:hover {
-      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(255,45,85,0.4);
     }
 
     #noBtn {
       background: #e5e5ea;
       color: #111;
-      position: fixed;
-      z-index: 3;
+      position: absolute;
     }
 
-    .final-img {
-      max-width: 100%;
+    .ending {
+      text-align: center;
       margin-top: 20px;
+    }
+
+    .ending img {
+      max-width: 90%;
       border-radius: 20px;
+      margin-top: 15px;
     }
 
-    .caption {
-      font-size: 1.2rem;
+    .ending p {
       margin-top: 10px;
-      color: #111;
+      font-size: 1.2rem;
+      color: #fff;
+      text-shadow: 1px 1px 8px black;
     }
-
   </style>
 </head>
-
 <body>
 
   <div class="card">
     <h1>Ari, will you be my Valentine? 💘</h1>
     <div id="popup"></div>
-    <button id="yesBtn">Yes 💖</button>
+    <button id="yesBtn">YES! 💖</button>
   </div>
 
   <button id="noBtn">No</button>
 
   <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const popup = document.getElementById("popup");
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const popup = document.getElementById('popup');
     let yesScale = 1;
 
     const messages = [
@@ -114,46 +120,54 @@
       "You almost had it."
     ];
 
-    function moveNo() {
-      const card = document.querySelector(".card");
-      const cardRect = card.getBoundingClientRect();
-      const minX = cardRect.left - 150;
-      const maxX = cardRect.right + 150 - noBtn.offsetWidth;
-      const minY = cardRect.top - 150;
-      const maxY = cardRect.bottom + 150 - noBtn.offsetHeight;
+    // Set initial position of No button near the card
+    const card = document.querySelector('.card');
+    const setInitialNoBtn = () => {
+      const rect = card.getBoundingClientRect();
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = rect.right - noBtn.offsetWidth - 10 + 'px';
+      noBtn.style.top = rect.top + 10 + 'px';
+    };
 
-      const x = Math.max(0, Math.min(window.innerWidth - noBtn.offsetWidth, Math.random() * (maxX - minX) + minX));
-      const y = Math.max(0, Math.min(window.innerHeight - noBtn.offsetHeight, Math.random() * (maxY - minY) + minY));
+    setInitialNoBtn();
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+    // Make the No button move around near the card
+    noBtn.addEventListener('mouseenter', () => {
+      const rect = card.getBoundingClientRect();
+      const padding = 20;
 
+      const minX = rect.left - padding;
+      const maxX = rect.right + padding - noBtn.offsetWidth;
+      const minY = rect.top - padding;
+      const maxY = rect.bottom + padding - noBtn.offsetHeight;
+
+      const x = Math.random() * (maxX - minX) + minX;
+      const y = Math.random() * (maxY - minY) + minY;
+
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+
+      // Show random popup
       popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-      // grow Yes button
+      // Expand Yes button
       yesScale += 0.2;
       yesBtn.style.transform = `scale(${yesScale})`;
-    }
+    });
 
-    noBtn.addEventListener("mouseenter", moveNo);
-    noBtn.addEventListener("click", moveNo);
-
-    yesBtn.addEventListener("click", () => {
+    // Yes button click
+    yesBtn.addEventListener('click', () => {
       document.body.innerHTML = `
-        <div class="card">
-          <h1>I knew you couldn’t resist this… heh 😏💖</h1>
-          <img src="cat_flowers.jpg" class="final-img" alt="Cat with flowers">
-          <div class="caption">Here are the flowers for you</div>
+        <div class="ending">
+          <h1>I knew you wouldn't resist this 😏</h1>
+          <p>Here are the flowers for you!</p>
+          <img src="cat_flowers.jpg" alt="Cat with flowers">
         </div>
       `;
     });
 
-    // place no button initially near the card
-    const card = document.querySelector(".card");
-    const cardRect = card.getBoundingClientRect();
-    noBtn.style.left = (cardRect.right + 10) + "px";
-    noBtn.style.top = cardRect.top + "px";
+    // Adjust No button if window resizes
+    window.addEventListener('resize', setInitialNoBtn);
   </script>
-
 </body>
 </html>
