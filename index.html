@@ -62,7 +62,6 @@ button {
 #yes {
   background: #ff2d55;
   color: white;
-  transform-origin: center;
   width: 100%;
   margin-bottom: 15px;
 }
@@ -96,6 +95,7 @@ const card = document.getElementById("card");
 
 let yesScale = 1;
 
+// Messages for No button hover
 const messages = [
   "Are you sure? 🤨",
   "Be serious.",
@@ -105,7 +105,7 @@ const messages = [
   "You almost had it."
 ];
 
-// place No button initially next to Yes
+// Place No button initially next to Yes
 function placeNoBtn() {
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -114,15 +114,14 @@ function placeNoBtn() {
 }
 placeNoBtn();
 
-// Move No button in a bigger central area inside card
+// Move No button inside a central area within card
 function moveNo() {
   const cardRect = card.getBoundingClientRect();
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
 
-  // central area padding (expanded)
-  const paddingX = cardRect.width / 5;  // ~20% from left/right
-  const paddingY = cardRect.height / 5; // ~20% from top/bottom
+  const paddingX = cardRect.width / 5;  
+  const paddingY = cardRect.height / 5;
 
   const minX = paddingX;
   const maxX = cardRect.width - btnWidth - paddingX;
@@ -137,15 +136,16 @@ function moveNo() {
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // grow Yes button more dramatically
-  yesScale += 0.5;
-  yesBtn.style.transform = "scale(" + yesScale + ")";
+  // Grow Yes button vertically without stretching width
+  yesBtn.style.paddingTop = yesBtn.offsetHeight * 0.5 + "px"; // grow height
+  yesBtn.style.paddingBottom = yesBtn.offsetHeight * 0.5 + "px";
+  yesBtn.style.fontSize = parseFloat(window.getComputedStyle(yesBtn).fontSize) * 1.2 + "px";
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("click", moveNo);
 
-// Yes button click — final success screen
+// Yes button click — success screen
 yesBtn.addEventListener("click", () => {
   document.body.innerHTML = `
     <div class="card">
