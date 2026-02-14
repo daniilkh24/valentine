@@ -93,7 +93,6 @@ const yesBtn = document.getElementById("yes");
 const popup = document.getElementById("popup");
 const card = document.getElementById("card");
 
-// Messages for No button hover
 const messages = [
   "Are you sure? 🤨",
   "Be serious.",
@@ -112,31 +111,36 @@ function placeNoBtn() {
 }
 placeNoBtn();
 
-// Move No button anywhere near edges of the card + outside for chaos
+// Move No button but keep it fully visible on screen
 function moveNo() {
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
-  
-  const padding = 10; // minimum distance from screen edges
 
+  const padding = 10; // minimum distance from edges
   const maxX = window.innerWidth - btnWidth - padding;
   const maxY = window.innerHeight - btnHeight - padding;
+  const minX = padding;
+  const minY = padding;
 
-  const minX = -btnWidth/2; // allow half outside left
-  const minY = -btnHeight/2; // allow half outside top
+  // Random position near center but fully visible
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
-  const x = Math.random() * (maxX - minX) + minX;
-  const y = Math.random() * (maxY - minY) + minY;
+  const rangeX = Math.min(centerX - padding, maxX - centerX);
+  const rangeY = Math.min(centerY - padding, maxY - centerY);
+
+  const x = centerX + (Math.random() * rangeX * 2 - rangeX);
+  const y = centerY + (Math.random() * rangeY * 2 - rangeY);
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button vertically (not horizontally)
-  yesBtn.style.paddingTop = yesBtn.offsetHeight * 0.5 + "px";
-  yesBtn.style.paddingBottom = yesBtn.offsetHeight * 0.5 + "px";
-  yesBtn.style.fontSize = parseFloat(window.getComputedStyle(yesBtn).fontSize) * 1.2 + "px";
+  // Grow Yes button vertically
+  yesBtn.style.paddingTop = yesBtn.offsetHeight * 0.3 + "px";
+  yesBtn.style.paddingBottom = yesBtn.offsetHeight * 0.3 + "px";
+  yesBtn.style.fontSize = parseFloat(window.getComputedStyle(yesBtn).fontSize) * 1.25 + "px";
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
