@@ -1,1 +1,156 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>For Ari ❤️</title> <style> * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; } body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: url('hearts.jpg') center/cover no-repeat fixed; overflow: hidden; } /* Glassy Card */ .card { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.25); border-radius: 30px; padding: 40px; width: 90%; max-width: 420px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3); position: relative; z-index: 2; } h1 { font-size: 2rem; margin-bottom: 20px; color: #111; } #popup { height: 25px; font-size: 1rem; margin-bottom: 25px; color: #333; transition: 0.2s ease; } /* Buttons */ button { padding: 14px 25px; border-radius: 25px; border: none; font-size: 1rem; cursor: pointer; transition: 0.2s ease; font-weight: bold; } #yesBtn { background: #ff2d55; color: white; width: 100%; margin-bottom: 15px; } #yesBtn:hover { transform: scale(1.05); } #noBtn { background: #e5e5ea; color: #111; position: fixed; z-index: 3; } .final-img { max-width: 100%; margin-top: 20px; border-radius: 20px; } .caption { font-size: 1.2rem; margin-top: 10px; color: #111; } </style> </head> <body> <div class="card"> <h1>Ari, will you be my Valentine? 💘</h1> <div id="popup"></div> <button id="yesBtn">Yes 💖</button> </div> <button id="noBtn">No</button> <script> const noBtn = document.getElementById("noBtn"); const yesBtn = document.getElementById("yesBtn"); const popup = document.getElementById("popup"); let yesScale = 1; const messages = [ "Are you sure? 🤨", "Be serious.", "Wrong choice.", "That’s crazy.", "Try again.", "You almost had it." ]; function moveNo() { const card = document.querySelector(".card"); const cardRect = card.getBoundingClientRect(); const minX = cardRect.left - 150; const maxX = cardRect.right + 150 - noBtn.offsetWidth; const minY = cardRect.top - 150; const maxY = cardRect.bottom + 150 - noBtn.offsetHeight; const x = Math.max(0, Math.min(window.innerWidth - noBtn.offsetWidth, Math.random() * (maxX - minX) + minX)); const y = Math.max(0, Math.min(window.innerHeight - noBtn.offsetHeight, Math.random() * (maxY - minY) + minY)); noBtn.style.left = x + "px"; noBtn.style.top = y + "px"; popup.textContent = messages[Math.floor(Math.random() * messages.length)]; // grow Yes button yesScale += 0.2; yesBtn.style.transform = scale(${yesScale}); } noBtn.addEventListener("mouseenter", moveNo); noBtn.addEventListener("click", moveNo); yesBtn.addEventListener("click", () => { document.body.innerHTML = <div class="card"> <h1>I knew you couldn’t resist this… heh 😏💖</h1> <img src="cat_flowers.jpg" class="final-img" alt="Cat with flowers"> <div class="caption">Here are the flowers for you</div> </div> ; }); // place no button initially near the card const card = document.querySelector(".card"); const cardRect = card.getBoundingClientRect(); noBtn.style.left = (cardRect.right + 10) + "px"; noBtn.style.top = cardRect.top + "px"; </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Ari ❤️</title>
+<style>
+* { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('hearts.jpg') center/cover no-repeat fixed;
+  overflow: hidden;
+}
+
+/* Glassy Card */
+.card {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  padding: 40px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  position: relative;
+  z-index: 2;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+#popup {
+  height: 25px;
+  font-size: 1rem;
+  margin-bottom: 25px;
+  color: #333;
+  transition: 0.2s ease;
+}
+
+/* Buttons */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+}
+
+button {
+  padding: 14px 25px;
+  border-radius: 25px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: bold;
+}
+
+#yesBtn {
+  background: #ff2d55;
+  color: white;
+}
+
+#noBtn {
+  background: #e5e5ea;
+  color: #111;
+  position: absolute;
+}
+
+.final-img {
+  max-width: 100%;
+  margin-top: 20px;
+  border-radius: 20px;
+}
+
+.caption {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #111;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Ari, will you be my Valentine? 💘</h1>
+  <div id="popup"></div>
+  <div class="button-container">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No</button>
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const popup = document.getElementById("popup");
+let yesScale = 1;
+
+const messages = [
+  "Are you sure? 🤨",
+  "Be serious.",
+  "Wrong choice.",
+  "That’s crazy.",
+  "Try again.",
+  "You almost had it."
+];
+
+function moveNo() {
+  const container = document.querySelector(".button-container");
+  const rect = container.getBoundingClientRect();
+
+  // Move No button **inside the container area**
+  const padding = 0;
+  const x = Math.random() * (rect.width - noBtn.offsetWidth - padding*2);
+  const y = Math.random() * (rect.height - noBtn.offsetHeight - padding*2);
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+  // grow Yes button
+  yesScale += 0.2;
+  yesBtn.style.transform = `scale(${yesScale})`;
+}
+
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("click", moveNo);
+
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <div class="card">
+      <h1>I knew you couldn’t resist this… heh 😏💖</h1>
+      <img src="cat_flowers.jpg" class="final-img" alt="Cat with flowers">
+      <div class="caption">Here are the flowers for you</div>
+    </div>
+  `;
+});
+
+// initially, No button starts next to Yes
+noBtn.style.left = yesBtn.offsetWidth + 10 + "px";
+noBtn.style.top = "0px";
+</script>
+
+</body>
+</html>
+
