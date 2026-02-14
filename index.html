@@ -118,19 +118,22 @@
       "You almost had it."
     ];
 
-    // place no button **next to Yes button at start**
-    const setInitialNoBtn = () => {
+    // Place no button exactly next to the yes button at start
+    function placeNoButtonNextToYes() {
       const yesRect = yesBtn.getBoundingClientRect();
-      noBtn.style.left = yesRect.right + 10 + 'px';
-      noBtn.style.top = yesRect.top + 'px';
-    };
+      const cardRect = document.querySelector('.card').getBoundingClientRect();
 
-    setInitialNoBtn();
+      // Relative to card
+      noBtn.style.left = (yesRect.width + 10) + 'px'; // 10px to the right
+      noBtn.style.top = (yesRect.top - cardRect.top) + 'px'; // align vertically
+    }
 
-    // Make No button move around near the card, but not offscreen
+    placeNoButtonNextToYes();
+
+    // Move No button when hovered, but keep it near the card
     noBtn.addEventListener('mouseenter', () => {
       const cardRect = document.querySelector('.card').getBoundingClientRect();
-      const padding = 30;
+      const padding = 50;
 
       const minX = Math.max(cardRect.left - padding, 0);
       const maxX = Math.min(cardRect.right + padding - noBtn.offsetWidth, window.innerWidth - noBtn.offsetWidth);
@@ -140,6 +143,7 @@
       const x = Math.random() * (maxX - minX) + minX;
       const y = Math.random() * (maxY - minY) + minY;
 
+      noBtn.style.position = 'fixed';
       noBtn.style.left = x + 'px';
       noBtn.style.top = y + 'px';
 
@@ -160,7 +164,7 @@
       `;
     });
 
-    window.addEventListener('resize', setInitialNoBtn);
+    window.addEventListener('resize', placeNoButtonNextToYes);
   </script>
 </body>
 </html>
