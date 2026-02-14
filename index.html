@@ -11,22 +11,23 @@
       align-items: center;
       background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
       font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial;
+      overflow: hidden;
     }
 
     .chat-box {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(25px);
       padding: 50px 60px;
       border-radius: 30px;
       text-align: center;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-      width: 350px;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+      width: 360px;
       position: relative;
     }
 
     h1 {
-      margin-bottom: 40px;
       font-size: 22px;
+      margin-bottom: 40px;
       font-weight: 600;
       color: black;
     }
@@ -39,24 +40,32 @@
     }
 
     button {
-      padding: 12px 28px;
+      padding: 14px 30px;
       font-size: 18px;
       border: none;
       border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s ease;
-      position: relative;
     }
 
     #yesBtn {
       background: #34c759;
       color: white;
       transform-origin: center;
+      transition: transform 0.3s ease;
     }
 
     #noBtn {
       background: #ff3b30;
       color: white;
+      position: relative; /* IMPORTANT */
+    }
+
+    .popup {
+      margin-top: 20px;
+      font-size: 15px;
+      color: black;
+      height: 20px;
     }
   </style>
 </head>
@@ -65,35 +74,57 @@
 
 <div class="chat-box">
   <h1>Will you be my Valentine? ❤️</h1>
+
   <div class="buttons">
     <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
   </div>
+
+  <div class="popup" id="popup"></div>
 </div>
 
 <script>
-  let yesSize = 1;
-
-  const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const popup = document.getElementById("popup");
 
-  // Make YES grow when NO is clicked
-  noBtn.addEventListener("click", function() {
-    yesSize += 0.3;
-    yesBtn.style.transform = "scale(" + yesSize + ")";
-  });
+  let yesScale = 1;
 
-  // Make NO move randomly ONLY after hover
-  noBtn.addEventListener("mouseenter", function() {
-    const x = Math.random() * 200 - 100;
-    const y = Math.random() * 100 - 50;
+  const messages = [
+    "Are you serious? 😭",
+    "Be honest.",
+    "You thought that would work?",
+    "No is disabled.",
+    "Try again.",
+    "Wrong answer."
+  ];
+
+  function moveNoButton() {
+    const box = document.querySelector(".chat-box");
+    const boxRect = box.getBoundingClientRect();
+
+    const maxX = boxRect.width - noBtn.offsetWidth - 40;
+    const maxY = boxRect.height - noBtn.offsetHeight - 40;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
     noBtn.style.position = "absolute";
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
-  });
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    popup.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+    yesScale += 0.2;
+    yesBtn.style.transform = "scale(" + yesScale + ")";
+  }
+
+  noBtn.addEventListener("mouseenter", moveNoButton);
+  noBtn.addEventListener("click", moveNoButton);
 
   yesBtn.addEventListener("click", function() {
     document.querySelector(".chat-box").innerHTML =
-      "<h1>YAYYYY 💖 BEST VALENTINE EVER 💕</h1>";
+      "<h1>YAYYYYY 💘 BEST DECISION EVER 💕</h1>";
   });
 </script>
 
