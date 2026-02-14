@@ -1,173 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Be My Valentine?</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial;
-      overflow: hidden;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ari 💘</title>
 
-    /* Floating Hearts */
-    .heart {
-      position: absolute;
-      font-size: 20px;
-      animation: float 6s linear infinite;
-      opacity: 0.7;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-    @keyframes float {
-      0% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-      50% { opacity: 1; }
-      100% {
-        transform: translateY(-10vh);
-        opacity: 0;
-      }
-    }
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("hearts.jpg") center/cover no-repeat;
+  overflow: hidden;
+}
 
-    .chat-box {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(25px);
-      padding: 50px 60px;
-      border-radius: 30px;
-      text-align: center;
-      box-shadow: 0 30px 70px rgba(0,0,0,0.2);
-      width: 360px;
-      position: relative;
-      z-index: 10;
-    }
+/* Glass Card */
+.card {
+  backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  padding: 40px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  position: relative;
+}
 
-    h1 {
-      font-size: 22px;
-      margin-bottom: 40px;
-      font-weight: 600;
-      color: black;
-    }
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #111;
+}
 
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      position: relative;
-    }
+#popup {
+  height: 25px;
+  font-size: 1rem;
+  margin-bottom: 25px;
+  color: #333;
+  transition: 0.2s ease;
+}
 
-    button {
-      padding: 14px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+/* Buttons */
+button {
+  padding: 14px 25px;
+  border-radius: 25px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
 
-    #yesBtn {
-      background: #34c759;
-      color: white;
-      transform-origin: center;
-      transition: transform 0.3s ease;
-    }
+#yes {
+  background: #ff2d55;
+  color: white;
+  width: 100%;
+  margin-bottom: 15px;
+  transform-origin: center;
+}
 
-    #noBtn {
-      background: #ff3b30;
-      color: white;
-      position: relative;
-    }
+#no {
+  background: #e5e5ea;
+  color: #111;
+  margin-top: 10px;
+  width: 100%;
+}
 
-    .popup {
-      margin-top: 20px;
-      font-size: 15px;
-      color: black;
-      height: 20px;
-    }
-  </style>
+.success {
+  font-size: 1.6rem;
+  color: #111;
+}
+</style>
 </head>
 
 <body>
 
-<div class="chat-box">
-  <h1>Will you be my Valentine? ❤️</h1>
-
-  <div class="buttons">
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
-  </div>
-
-  <div class="popup" id="popup"></div>
+<div class="card">
+  <h1>Ari, will you be my Valentine? 💘</h1>
+  <div id="popup"></div>
+  <button id="yes">Yes 💖</button>
+  <button id="no">No</button>
 </div>
 
 <script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const popup = document.getElementById("popup");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const popup = document.getElementById("popup");
 
-  let yesScale = 1;
+let yesScale = 1;
 
-  const messages = [
-    "Are you serious? 😭",
-    "Be honest.",
-    "You really tried that?",
-    "No is disabled.",
-    "Try again.",
-    "Wrong answer."
-  ];
+const messages = [
+  "Are you sure? 🤨",
+  "Be serious.",
+  "Wrong choice.",
+  "That’s crazy.",
+  "Try again.",
+  "You almost had it."
+];
 
-  function moveNoButton() {
-    const box = document.querySelector(".chat-box");
-    const boxRect = box.getBoundingClientRect();
+function moveNo() {
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
 
-    const maxX = boxRect.width - noBtn.offsetWidth - 40;
-    const maxY = boxRect.height - noBtn.offsetHeight - 40;
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
 
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-    noBtn.style.position = "absolute";
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
+  // YES BUTTON GROWS INSANE
+  yesScale += 0.4;
+  yesBtn.style.transform = "scale(" + yesScale + ")";
+}
 
-    popup.textContent = messages[Math.floor(Math.random() * messages.length)];
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("click", moveNo);
 
-    // MASSIVE YES GROWTH
-    yesScale += 0.6;
-    yesBtn.style.transform = "scale(" + yesScale + ")";
-  }
-
-  noBtn.addEventListener("mouseenter", moveNoButton);
-  noBtn.addEventListener("click", moveNoButton);
-
-  yesBtn.addEventListener("click", function() {
-    document.body.innerHTML = `
-      <h1 style="font-size:40px;color:white;text-align:center;">
-        YAYYYYY 💘 BEST DECISION EVER 💕
-      </h1>
-    `;
-  });
-
-  /* Generate Floating Hearts */
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-      heart.remove();
-    }, 6000);
-  }
-
-  setInterval(createHeart, 300);
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <div class="card">
+      <div class="success">She said YES 💘</div>
+      <p style="margin-top:10px;">W decision.</p>
+    </div>
+  `;
+});
 </script>
 
 </body>
