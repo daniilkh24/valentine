@@ -61,7 +61,6 @@ button {
 #yes {
   background: #ff2d55;
   color: white;
-  width: 100%;
   left: 50%;
   transform: translateX(-50%);
   bottom: 20px;
@@ -76,6 +75,7 @@ button {
 .success {
   font-size: 1.6rem;
   color: #111;
+  text-align: center;
 }
 </style>
 </head>
@@ -103,27 +103,26 @@ const messages = [
   "You almost had it."
 ];
 
-// Place No button initially next to Yes button
-function placeNoBtn() {
+// Start buttons next to each other
+function initButtons() {
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
   noBtn.style.left = (yesRect.right - cardRect.left + 10) + "px";
   noBtn.style.top = (yesRect.top - cardRect.top) + "px";
 }
-placeNoBtn();
+initButtons();
 
-// Move No button around card area without disappearing
+// Move No button randomly around the card area
 function moveNo() {
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
-
   const cardRect = card.getBoundingClientRect();
 
-  // Random area around the card but within screen limits
-  const minX = Math.max(cardRect.left - 50, 10);
-  const maxX = Math.min(cardRect.right + 50 - btnWidth, window.innerWidth - btnWidth - 10);
-  const minY = Math.max(cardRect.top - 50, 10);
-  const maxY = Math.min(cardRect.bottom + 50 - btnHeight, window.innerHeight - btnHeight - 10);
+  // Keep it close to card (not offscreen)
+  const minX = Math.max(cardRect.left - 20, 10);
+  const maxX = Math.min(cardRect.right + 20 - btnWidth, window.innerWidth - btnWidth - 10);
+  const minY = Math.max(cardRect.top - 20, 10);
+  const maxY = Math.min(cardRect.bottom + 20 - btnHeight, window.innerHeight - btnHeight - 10);
 
   const x = minX + Math.random() * (maxX - minX);
   const y = minY + Math.random() * (maxY - minY);
@@ -133,14 +132,19 @@ function moveNo() {
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button only
-  let currentHeight = yesBtn.offsetHeight;
+  // Grow Yes button but with max limits
   let currentWidth = yesBtn.offsetWidth;
+  let currentHeight = yesBtn.offsetHeight;
   let currentFont = parseFloat(window.getComputedStyle(yesBtn).fontSize);
 
-  yesBtn.style.height = currentHeight * 1.15 + "px"; // vertical growth
-  yesBtn.style.width = currentWidth * 1.05 + "px"; // slight horizontal growth
-  yesBtn.style.fontSize = (currentFont * 1.1) + "px";
+  // max width and height
+  const maxWidth = 300;
+  const maxHeight = 80;
+  const maxFont = 28;
+
+  yesBtn.style.width = Math.min(currentWidth * 1.1, maxWidth) + "px";
+  yesBtn.style.height = Math.min(currentHeight * 1.1, maxHeight) + "px";
+  yesBtn.style.fontSize = Math.min(currentFont * 1.1, maxFont) + "px";
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
