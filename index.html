@@ -21,7 +21,7 @@ body {
   overflow: hidden;
 }
 
-/* EXTRA Glassy Card */
+/* Glassy Card */
 .card {
   backdrop-filter: blur(35px);
   background: rgba(255, 255, 255, 0.2);
@@ -105,7 +105,7 @@ const messages = [
   "You almost had it."
 ];
 
-// Start No button next to Yes
+// Place No button initially **next to Yes button**
 function initButtons() {
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -114,16 +114,18 @@ function initButtons() {
 }
 initButtons();
 
-// Move No button randomly on screen but fully visible
+// Move No button randomly within a **range around the card**
 function moveNo() {
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
+  const cardRect = card.getBoundingClientRect();
 
-  const maxX = window.innerWidth - btnWidth - 10;
-  const maxY = window.innerHeight - btnHeight - 10;
-
-  const minX = 10;
-  const minY = 10;
+  // Define a “spawn box” around the card
+  const padding = 50; // distance from card edges
+  const minX = Math.max(0, cardRect.left - padding);
+  const maxX = Math.min(window.innerWidth - btnWidth, cardRect.right + padding);
+  const minY = Math.max(0, cardRect.top - padding);
+  const maxY = Math.min(window.innerHeight - btnHeight, cardRect.bottom + padding);
 
   const x = Math.random() * (maxX - minX) + minX;
   const y = Math.random() * (maxY - minY) + minY;
@@ -131,6 +133,7 @@ function moveNo() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
+  // Random popup message
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
   // Grow Yes button endlessly
@@ -138,11 +141,12 @@ function moveNo() {
   let currentHeight = yesBtn.offsetHeight;
   let currentFont = parseFloat(window.getComputedStyle(yesBtn).fontSize);
 
-  yesBtn.style.width = currentWidth * 1.1 + "px";
-  yesBtn.style.height = currentHeight * 1.1 + "px";
-  yesBtn.style.fontSize = currentFont * 1.1 + "px";
+  yesBtn.style.width = currentWidth * 1.15 + "px";
+  yesBtn.style.height = currentHeight * 1.15 + "px";
+  yesBtn.style.fontSize = currentFont * 1.15 + "px";
 }
 
+// Event listeners
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("click", moveNo);
 
