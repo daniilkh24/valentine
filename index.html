@@ -34,14 +34,14 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       border: 1px solid rgba(255,255,255,0.3);
       z-index: 2;
+      color: black; /* text inside card is black */
     }
 
     h1 {
       font-family: 'Pacifico', cursive;
       font-size: 2.5rem;
       margin-bottom: 25px;
-      color: #fff;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+      color: black; /* main heading is black */
     }
 
     #popup {
@@ -73,7 +73,7 @@
     #noBtn {
       background: #e5e5ea;
       color: #111;
-      position: absolute;
+      position: fixed; /* keep it above everything */
     }
 
     .ending {
@@ -90,8 +90,7 @@
     .ending p {
       margin-top: 10px;
       font-size: 1.2rem;
-      color: #fff;
-      text-shadow: 1px 1px 8px black;
+      color: #000;
     }
   </style>
 </head>
@@ -120,26 +119,25 @@
       "You almost had it."
     ];
 
-    // Set initial position of No button near the card
+    // Set initial position of No button near the Yes button
     const card = document.querySelector('.card');
     const setInitialNoBtn = () => {
       const rect = card.getBoundingClientRect();
-      noBtn.style.position = 'fixed';
       noBtn.style.left = rect.right - noBtn.offsetWidth - 10 + 'px';
       noBtn.style.top = rect.top + 10 + 'px';
     };
 
     setInitialNoBtn();
 
-    // Make the No button move around near the card
+    // Make the No button move around **near the card** but never offscreen
     noBtn.addEventListener('mouseenter', () => {
       const rect = card.getBoundingClientRect();
-      const padding = 20;
+      const padding = 30; // area around card
 
-      const minX = rect.left - padding;
-      const maxX = rect.right + padding - noBtn.offsetWidth;
-      const minY = rect.top - padding;
-      const maxY = rect.bottom + padding - noBtn.offsetHeight;
+      const minX = Math.max(rect.left - padding, 0);
+      const maxX = Math.min(rect.right + padding - noBtn.offsetWidth, window.innerWidth - noBtn.offsetWidth);
+      const minY = Math.max(rect.top - padding, 0);
+      const maxY = Math.min(rect.bottom + padding - noBtn.offsetHeight, window.innerHeight - noBtn.offsetHeight);
 
       const x = Math.random() * (maxX - minX) + minX;
       const y = Math.random() * (maxY - minY) + minY;
