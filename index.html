@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ari 💘</title>
-
 <style>
 * {
   margin: 0;
@@ -46,7 +45,7 @@ h1 {
   height: 25px;
   font-size: 1rem;
   margin-bottom: 25px;
-  color: #333;
+  color: #111;
   transition: 0.2s ease;
 }
 
@@ -78,13 +77,12 @@ button {
 }
 </style>
 </head>
-
 <body>
 
 <div class="card">
   <h1>Ari, will you be my Valentine? 💘</h1>
   <div id="popup"></div>
-  <div style="display:flex; gap:15px; justify-content:center;">
+  <div style="display:flex; gap:15px; justify-content:center; position:relative;">
     <button id="yes">Yes 💖</button>
     <button id="no">No</button>
   </div>
@@ -106,24 +104,31 @@ const messages = [
   "You almost had it."
 ];
 
-// Get card boundaries to prevent "No" going out of bounds
+// place no button next to yes button at start
+function placeNoBtn() {
+  const yesRect = yesBtn.getBoundingClientRect();
+  noBtn.style.left = (yesRect.right + 15) + "px";
+  noBtn.style.top = yesRect.top + "px";
+}
+placeNoBtn();
+
+// Move No button randomly inside viewport
 function moveNo() {
-  const padding = 20; // space from edges
+  const padding = 20;
   const maxX = window.innerWidth - noBtn.offsetWidth - padding;
   const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-  // Random position inside viewport
   noBtn.style.left = Math.random() * maxX + "px";
   noBtn.style.top = Math.random() * maxY + "px";
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // YES BUTTON GROWS BIG
-  yesScale += 0.4;
+  // YES BUTTON GROWS
+  yesScale += 0.5;
   yesBtn.style.transform = "scale(" + yesScale + ")";
 }
 
-// Move No button on hover
+// trigger move when hovering over no
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("click", moveNo);
 
