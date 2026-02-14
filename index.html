@@ -80,6 +80,12 @@
       border-radius: 20px;
     }
 
+    .caption {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #111;
+    }
+
   </style>
 </head>
 
@@ -109,7 +115,6 @@
     ];
 
     function moveNo() {
-      // spawn near the center area (glassy card) so it doesn't disappear
       const card = document.querySelector(".card");
       const cardRect = card.getBoundingClientRect();
       const minX = cardRect.left - 150;
@@ -138,6 +143,7 @@
         <div class="card">
           <h1>I knew you couldn’t resist this… heh 😏💖</h1>
           <img src="cat_flowers.jpg" class="final-img" alt="Cat with flowers">
+          <div class="caption">Here are the flowers for you</div>
         </div>
       `;
     });
