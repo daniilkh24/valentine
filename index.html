@@ -114,19 +114,21 @@ function placeNoBtn() {
 }
 placeNoBtn();
 
-// Move No button randomly inside viewport
+// Move No button randomly near center of screen
 function moveNo() {
-  const padding = 20;
-  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+  const padding = 50;
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+  const rangeX = 200; // horizontal movement range
+  const rangeY = 150; // vertical movement range
+
+  const x = centerX + (Math.random() - 0.5) * rangeX;
+  const y = centerY + (Math.random() - 0.5) * rangeY;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // Show popup message
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
   // Grow Yes button gradually
@@ -134,13 +136,8 @@ function moveNo() {
   yesBtn.style.transform = "scale(" + yesScale + ")";
 }
 
-// Hovering over No triggers move
 noBtn.addEventListener("mouseenter", moveNo);
-
-// Prevent No from disappearing on click
-noBtn.addEventListener("click", () => {
-  moveNo();
-});
+noBtn.addEventListener("click", moveNo);
 
 // Yes button click — final success screen
 yesBtn.addEventListener("click", () => {
