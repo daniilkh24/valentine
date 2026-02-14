@@ -1,113 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valentine 😈</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: url('hearts.jpg') center/cover no-repeat fixed;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ari 💘</title>
 
-    h1 {
-      font-size: 3rem;
-      color: black;
-      text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
-      margin-bottom: 20px;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-    #popup {
-      font-size: 1.5rem;
-      color: black;
-      margin-bottom: 20px;
-      height: 30px;
-    }
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("hearts.jpg") center/cover no-repeat;
+  overflow: hidden;
+}
 
-    button {
-      font-size: 2rem;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      position: absolute;
-      transition: all 0.2s ease;
-    }
+/* Glass Card */
+.card {
+  backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  padding: 40px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+}
 
-    #yes {
-      background: #ff4d6d;
-      color: white;
-      left: 50%;
-      bottom: 10%;
-      transform: translateX(-50%);
-    }
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #111;
+}
 
-    #no {
-      background: #eee;
-      color: black;
-      left: 30%;
-      top: 40%;
-    }
-  </style>
+#popup {
+  height: 25px;
+  font-size: 1rem;
+  margin-bottom: 25px;
+  color: #333;
+  transition: 0.2s ease;
+}
+
+/* Buttons */
+button {
+  padding: 14px 25px;
+  border-radius: 25px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#yes {
+  background: #ff2d55;
+  color: white;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+#yes:hover {
+  transform: scale(1.05);
+}
+
+#no {
+  background: #e5e5ea;
+  color: #111;
+  position: absolute;
+}
+
+.success {
+  font-size: 1.6rem;
+  color: #111;
+}
+
+</style>
 </head>
+
 <body>
 
-  <h1>Will you be my Valentine? 💘</h1>
+<div class="card">
+  <h1>Ari, will you be my Valentine? 💘</h1>
   <div id="popup"></div>
+  <button id="yes">Yes 💖</button>
+</div>
 
-  <button id="yes" onclick="yesClick()">Yes 💖</button>
-  <button id="no">No 😭</button>
+<button id="no">No</button>
 
-  <script>
-    const noBtn = document.getElementById("no");
-    const popup = document.getElementById("popup");
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const popup = document.getElementById("popup");
 
-    const messages = [
-      "Nice try 😭",
-      "Nope.",
-      "You really thought?",
-      "That button is broken fr",
-      "Try again 💀",
-      "Be serious right now"
-    ];
+const messages = [
+  "Are you sure? 🤨",
+  "Be serious.",
+  "Wrong choice.",
+  "That’s crazy.",
+  "Try again.",
+  "You almost had it."
+];
 
-    function moveNoButton() {
-      const maxX = window.innerWidth - noBtn.offsetWidth;
-      const maxY = window.innerHeight - noBtn.offsetHeight;
+function moveNo() {
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
+}
 
-      popup.textContent = messages[Math.floor(Math.random() * messages.length)];
-    }
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("click", moveNo);
 
-    noBtn.addEventListener("mouseenter", moveNoButton);
-    noBtn.addEventListener("click", moveNoButton);
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <div class="card">
+      <div class="success">She said YES 💘</div>
+      <p style="margin-top:10px;">W decision.</p>
+    </div>
+  `;
+});
 
-    function yesClick() {
-      document.body.innerHTML = `
-        <h1 style="color:black; font-size:4rem; text-shadow:2px 2px 4px rgba(255,255,255,0.5);">
-          YAYYYYY 💘
-        </h1>
-        <p style="color:black; font-size:2rem;">You made the right choice 😌</p>
-      `;
-    }
-
-    // Start No button somewhere random
-    moveNoButton();
-  </script>
+// place no button initially
+moveNo();
+</script>
 
 </body>
 </html>
