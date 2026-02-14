@@ -1,138 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>For Ari ❤️</title>
 <style>
-* { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: url('hearts.jpg') center/cover no-repeat fixed;
-  overflow: hidden;
-}
-
-/* Glassy Card */
-.card {
-  position: relative;
-  backdrop-filter: blur(25px);
-  background: rgba(255,255,255,0.25);
-  border-radius: 30px;
-  padding: 40px;
-  width: 320px;
-  text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.3);
-  z-index: 1; /* Lower than No button now */
-}
-
-h1 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  color: #111;
-}
-
-#popup {
-  height: 25px;
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 20px;
-  transition: 0.2s ease;
-}
-
-/* Buttons */
-button {
-  padding: 15px 40px;
-  border-radius: 50px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  margin: 5px;
-}
-
-#yesBtn {
-  background-color: #ff4d6d;
-  color: white;
-  width: 100%;
-  z-index: 1;
-}
-
-#noBtn {
-  background-color: #eee;
-  color: #111;
-  position: fixed;
-  z-index: 3; /* Above everything */
-}
-
+  * { box-sizing: border-box; font-family: 'Arial', sans-serif; }
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('hearts.jpg') center/cover no-repeat fixed;
+    overflow: hidden;
+  }
+  .card {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 40px 30px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    position: relative;
+    z-index: 2;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #111;
+  }
+  #popup {
+    height: 25px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #333;
+    transition: 0.2s ease;
+  }
+  .buttons { position: relative; }
+  button {
+    padding: 14px 25px;
+    border-radius: 25px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: bold;
+  }
+  #yesBtn {
+    background: #ff2d55;
+    color: white;
+    width: 100%;
+    margin-bottom: 15px;
+    z-index: 2;
+  }
+  #noBtn {
+    background: #e5e5ea;
+    color: #111;
+    position: absolute;
+    z-index: 3;
+  }
+  img { max-width: 80%; margin-top: 20px; border-radius: 15px; }
 </style>
 </head>
 <body>
 
-<div class="card">
+<div class="card" id="card">
   <h1>Ari, will you be my Valentine? 💘</h1>
   <div id="popup"></div>
-  <button id="yesBtn">YES! 💕</button>
+  <div class="buttons">
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">No</button>
+  </div>
 </div>
-
-<button id="noBtn">No</button>
 
 <script>
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
-const card = document.querySelector('.card');
 const popup = document.getElementById('popup');
+const card = document.getElementById('card');
 
-let yesScale = 1;
 const messages = [
-  "Haha nice try 😏",
-  "Not so fast!",
-  "Be serious!",
-  "Try again 💀",
-  "Almost got me!"
+  "Are you sure? 🤨",
+  "Be serious.",
+  "Wrong choice.",
+  "That’s crazy.",
+  "Try again.",
+  "You almost had it."
 ];
 
-// Place No button initially near the card
-const cardRect = card.getBoundingClientRect();
-noBtn.style.left = (cardRect.left + cardRect.width - noBtn.offsetWidth) + 'px';
-noBtn.style.top = (cardRect.top + cardRect.height - noBtn.offsetHeight) + 'px';
+let yesScale = 1;
 
-// Make No button move around area near the card but never offscreen
+// NO button initial position next to YES button
+noBtn.style.left = "0";
+noBtn.style.top = "60px";
+
+// Function to move NO button around card area
 function moveNo() {
-  const btnWidth = noBtn.offsetWidth;
-  const btnHeight = noBtn.offsetHeight;
+  const cardRect = card.getBoundingClientRect();
+  const maxX = cardRect.left + cardRect.width - noBtn.offsetWidth;
+  const maxY = cardRect.top + cardRect.height - noBtn.offsetHeight;
+  const minX = cardRect.left;
+  const minY = cardRect.top;
 
-  const padding = 150; // how far it can move from card center
-  const centerX = cardRect.left + cardRect.width / 2 - btnWidth / 2;
-  const centerY = cardRect.top + cardRect.height / 2 - btnHeight / 2;
+  const x = Math.random() * (maxX - minX) + minX;
+  const y = Math.random() * (maxY - minY) + minY;
 
-  const x = Math.min(Math.max(centerX + (Math.random()-0.5)*2*padding, 0), window.innerWidth - btnWidth);
-  const y = Math.min(Math.max(centerY + (Math.random()-0.5)*2*padding, 0), window.innerHeight - btnHeight);
-
+  noBtn.style.position = 'fixed';
   noBtn.style.left = x + 'px';
   noBtn.style.top = y + 'px';
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Grow Yes button endlessly
+  // Grow YES button every time NO moves
   yesScale += 0.2;
   yesBtn.style.transform = `scale(${yesScale})`;
 }
 
 noBtn.addEventListener('mouseenter', moveNo);
+noBtn.addEventListener('click', moveNo);
 
 yesBtn.addEventListener('click', () => {
   document.body.innerHTML = `
-    <div class="card" style="width: 400px;">
-      <h1 style="font-size:2.5rem; color:#ff4d6d;">YAYYY! Ari said YES! 💖🧸</h1>
-      <p style="font-size:1.2rem; margin-top:10px;">Best Valentine ever 😌</p>
-    </div>`;
+    <div class="card">
+      <h1>She said YES! 💘</h1>
+      <img src="cat_flowers.jpg" alt="Cat with flowers">
+      <p style="margin-top:15px;">Here are the flowers for you 😽🌸</p>
+    </div>
+  `;
 });
 </script>
 
