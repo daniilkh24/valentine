@@ -17,7 +17,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url("heartys.jpg") center/cover no-repeat;
+  background: url("hearts.jpg") center/cover no-repeat;
   overflow: hidden;
 }
 
@@ -56,7 +56,7 @@ button {
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 #yes {
@@ -104,31 +104,36 @@ const messages = [
   "You almost had it."
 ];
 
-// place no button next to yes button at start
+// Place "No" button next to "Yes" at start
 function placeNoBtn() {
   const yesRect = yesBtn.getBoundingClientRect();
-  noBtn.style.left = (yesRect.right + 15) + "px";
-  noBtn.style.top = yesRect.top + "px";
+  const cardRect = yesBtn.parentElement.getBoundingClientRect();
+
+  noBtn.style.left = (yesRect.right - cardRect.left + 10) + "px";
+  noBtn.style.top = (yesRect.top - cardRect.top) + "px";
 }
 placeNoBtn();
 
-// Move No button randomly inside viewport
+// Move No button randomly but inside viewport
 function moveNo() {
   const padding = 20;
   const maxX = window.innerWidth - noBtn.offsetWidth - padding;
   const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-  noBtn.style.left = Math.random() * maxX + "px";
-  noBtn.style.top = Math.random() * maxY + "px";
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 
   popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // YES BUTTON GROWS
-  yesScale += 0.5;
+  // YES BUTTON GROWS FAST
+  yesScale += 0.7;
   yesBtn.style.transform = "scale(" + yesScale + ")";
 }
 
-// trigger move when hovering over no
+// Trigger move when hovering over No
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("click", moveNo);
 
